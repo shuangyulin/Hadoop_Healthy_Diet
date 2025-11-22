@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.EshianyycfDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.entity.EshianyycfEntity" id="eshianyycfMap">
+        <result property="cname" column="cname"/>
+        <result property="ename" column="ename"/>
+        <result property="spfenlei" column="spfenlei"/>
+        <result property="keshibu" column="keshibu"/>
+        <result property="laiyuan" column="laiyuan"/>
+        <result property="chandi" column="chandi"/>
+        <result property="nengliang" column="nengliang"/>
+        <result property="danbaizhi" column="danbaizhi"/>
+        <result property="zhifang" column="zhifang"/>
+        <result property="tshhw" column="tshhw"/>
+        <result property="dangc" column="dangc"/>
+        <result property="baohezhifang" column="baohezhifang"/>
+        <result property="fanshizfs" column="fanshizfs"/>
+        <result property="dbbhzfs" column="dbbhzfs"/>
+        <result property="duobbhzfs" column="duobbhzfs"/>
+        <result property="tang" column="tang"/>
+        <result property="rutang" column="rutang"/>
+        <result property="sanshiqw" column="sanshiqw"/>
+        <result property="kesxssqw" column="kesxssqw"/>
+        <result property="bsxssqw" column="bsxssqw"/>
+        <result property="jinshuna" column="jinshuna"/>
+        <result property="weishengshua" column="weishengshua"/>
+        <result property="weishengshud" column="weishengshud"/>
+        <result property="weishengshue" column="weishengshue"/>
+        <result property="weishengshuk" column="weishengshuk"/>
+        <result property="weishengshub1" column="weishengshub1"/>
+        <result property="weishengshub2" column="weishengshub2"/>
+        <result property="weishengshub6" column="weishengshub6"/>
+        <result property="weishengshub12" column="weishengshub12"/>
+        <result property="weishengshuc" column="weishengshuc"/>
+        <result property="yanshuan" column="yanshuan"/>
+        <result property="yeshuan" column="yeshuan"/>
+        <result property="fanshuan" column="fanshuan"/>
+        <result property="shenwushu" column="shenwushu"/>
+        <result property="danjian" column="danjian"/>
+        <result property="jinshulin" column="jinshulin"/>
+        <result property="jinshujia" column="jinshujia"/>
+        <result property="jinshumei" column="jinshumei"/>
+        <result property="jinshugai" column="jinshugai"/>
+        <result property="jinshutie" column="jinshutie"/>
+        <result property="jinshuxin" column="jinshuxin"/>
+        <result property="jinshudian" column="jinshudian"/>
+        <result property="jinshudxi" column="jinshudxi"/>
+        <result property="jinshutong" column="jinshutong"/>
+        <result property="jinshufu" column="jinshufu"/>
+        <result property="jinshumeng" column="jinshumeng"/>
+        <result property="deltae" column="deltae"/>
+        <result property="beitae" column="beitae"/>
+        <result property="aerfae" column="aerfae"/>
+        <result property="hulubo" column="hulubo"/>
+        <result property="zhifansz" column="zhifansz"/>
+        <result property="huifen" column="huifen"/>
+        <result property="shuifen" column="shuifen"/>
+        <result property="nengliangqk" column="nengliangqk"/>
+        <result property="xqurl" column="xqurl"/>
+        <result property="storeupnum" column="storeupnum"/>
+    </resultMap>
+
+	<select id="selectListVO"
+		resultType="com.entity.vo.EshianyycfVO" >
+		SELECT * FROM eshianyycf  eshianyycf         
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectVO"
+		resultType="com.entity.vo.EshianyycfVO" >
+		SELECT  eshianyycf.* FROM eshianyycf  eshianyycf 	
+ 		<where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <select id="selectListView"
+		resultType="com.entity.view.EshianyycfView" >
+
+		SELECT  eshianyycf.* FROM eshianyycf  eshianyycf 	        
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectView"
+		resultType="com.entity.view.EshianyycfView" >
+		SELECT * FROM eshianyycf  eshianyycf <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+
+    <select id="selectValue" resultType="map" >
+        SELECT ${params.xColumn}, ROUND(sum(${params.yColumn}),1) total FROM eshianyycf
+        <where> 1=1 ${ew.sqlSegment}</where>
+        group by ${params.xColumn}
+    </select>
+
+    <select id="selectTimeStatValue" resultType="map" >
+        <if test = 'params.timeStatType == "日"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y-%m-%d') ${params.xColumn}, sum(${params.yColumn}) total FROM eshianyycf
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y-%m-%d')
+        </if>
+        <if test = 'params.timeStatType == "月"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y-%m') ${params.xColumn}, sum(${params.yColumn}) total FROM eshianyycf
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y-%m')
+        </if>
+        <if test='params.timeStatType == "季"'>
+                SELECT CONCAT(YEAR(${params.xColumn}), ' - ', ELT(QUARTER(${params.xColumn}), '第一季度', '第二季度', '第三季度', '第四季度')) as ${params.xColumn}, sum(${params.yColumn}) total FROM orders
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by CONCAT(YEAR(${params.xColumn}), ' - ', ELT(QUARTER(${params.xColumn}), '第一季度', '第二季度', '第三季度', '第四季度'))
+        </if>
+        <if test = 'params.timeStatType == "年"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y') ${params.xColumn}, sum(${params.yColumn}) total FROM eshianyycf
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y')
+        </if>
+    </select>
+
+    <select id="selectGroup" resultType="map" >
+        SELECT ${params.column} , count(1) total FROM eshianyycf
+        <where> 1=1 ${ew.sqlSegment}</where>
+        group by ${params.column}
+    </select>
+
+    <select id="nengliangSectionStat" resultType="map" >
+        SELECT '100以内' as nengliang,case when t.100以内 is null then 0 else t.100以内 end total
+        from
+        (select
+        sum(case when nengliang &lt;= 100 then 1 else 0 end) as 100以内,        sum(case when nengliang >= 101 and nengliang &lt;= 500 then 1 else 0 end) as 101至500,        sum(case when nengliang >= 501 and nengliang &lt;= 1000 then 1 else 0 end) as 501至1000,        sum(case when nengliang >= 1001 and nengliang &lt;= 2000 then 1 else 0 end) as 1001至2000,        sum(case when nengliang >= 2001 then 1 else 0 end) as 2001以上        from eshianyycf
+        <where> 1=1 ${ew.sqlSegment}</where>
+        ) t
+        union all
+        SELECT '101至500' as nengliang,case when t.101至500 is null then 0 else t.101至500 end total
+        from
+        (select
+        sum(case when nengliang &lt;= 100 then 1 else 0 end) as 100以内,        sum(case when nengliang >= 101 and nengliang &lt;= 500 then 1 else 0 end) as 101至500,        sum(case when nengliang >= 501 and nengliang &lt;= 1000 then 1 else 0 end) as 501至1000,        sum(case when nengliang >= 1001 and nengliang &lt;= 2000 then 1 else 0 end) as 1001至2000,        sum(case when nengliang >= 2001 then 1 else 0 end) as 2001以上        from eshianyycf
+        <where> 1=1 ${ew.sqlSegment}</where>
+        ) t
+        union all
+        SELECT '501至1000' as nengliang,case when t.501至1000 is null then 0 else t.501至1000 end total
+        from
+        (select
+        sum(case when nengliang &lt;= 100 then 1 else 0 end) as 100以内,        sum(case when nengliang >= 101 and nengliang &lt;= 500 then 1 else 0 end) as 101至500,        sum(case when nengliang >= 501 and nengliang &lt;= 1000 then 1 else 0 end) as 501至1000,        sum(case when nengliang >= 1001 and nengliang &lt;= 2000 then 1 else 0 end) as 1001至2000,        sum(case when nengliang >= 2001 then 1 else 0 end) as 2001以上        from eshianyycf
+        <where> 1=1 ${ew.sqlSegment}</where>
+        ) t
+        union all
+        SELECT '1001至2000' as nengliang,case when t.1001至2000 is null then 0 else t.1001至2000 end total
+        from
+        (select
+        sum(case when nengliang &lt;= 100 then 1 else 0 end) as 100以内,        sum(case when nengliang >= 101 and nengliang &lt;= 500 then 1 else 0 end) as 101至500,        sum(case when nengliang >= 501 and nengliang &lt;= 1000 then 1 else 0 end) as 501至1000,        sum(case when nengliang >= 1001 and nengliang &lt;= 2000 then 1 else 0 end) as 1001至2000,        sum(case when nengliang >= 2001 then 1 else 0 end) as 2001以上        from eshianyycf
+        <where> 1=1 ${ew.sqlSegment}</where>
+        ) t
+        union all
+        SELECT '2001以上' as nengliang,case when t.2001以上 is null then 0 else t.2001以上 end total
+        from
+        (select
+        sum(case when nengliang &lt;= 100 then 1 else 0 end) as 100以内,        sum(case when nengliang >= 101 and nengliang &lt;= 500 then 1 else 0 end) as 101至500,        sum(case when nengliang >= 501 and nengliang &lt;= 1000 then 1 else 0 end) as 501至1000,        sum(case when nengliang >= 1001 and nengliang &lt;= 2000 then 1 else 0 end) as 1001至2000,        sum(case when nengliang >= 2001 then 1 else 0 end) as 2001以上        from eshianyycf
+        <where> 1=1 ${ew.sqlSegment}</where>
+        ) t
+    </select>
+
+
+
+</mapper>
